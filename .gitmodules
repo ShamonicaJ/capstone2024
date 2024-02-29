@@ -1,0 +1,6 @@
+[submodule "supabase"]
+	path = supabase
+	url = git@github.com:iiicakeeiii/supabase.git
+[submodule "firebase"]
+	path = firebase
+	url = git@github.com:iiicakeeiii/firebase.git
