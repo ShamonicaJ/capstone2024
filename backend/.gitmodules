@@ -1,9 +1,3 @@
-[submodule "supabase"]
-	path = supabase
-	url = git@github.com:iiicakeeiii/supabase.git
-[submodule "firebase"]
-	path = firebase
-	url = git@github.com:iiicakeeiii/firebase.git
 [submodule "capstone-proj-1"]
 	path = capstone-proj-1
 	url = git@github.com:iiicakeeiii/capstone-proj-1.git
