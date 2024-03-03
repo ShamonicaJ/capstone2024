@@ -1,10 +1,11 @@
 import pg from 'pg';
 
-const client = new pg.Pool({
-	username: "",
-	port: 1234,
-	database: 'basic',
-	host: 'localhost',
+const client = new pg.Pool({ //make a connection to a pool
+	username: "iiicakeiii", //
+	password: "cake",
+	port: 5432, //port number stays the same (?)
+	database: 'capstone_db', //name of database
+	host: 'localhost', //locally hosted
 	
 });
 
@@ -14,8 +15,8 @@ const startDB = async () => {
 	try {
 		instance = await client.connect();
 	} catch (e) {
-		console.error('Failur connecting to database.', e);
-		throw e;
+		console.error('Failure connecting to database. @function startDB() ', e);
+		throw e; //kill app if can't connect
 	}
 }
 

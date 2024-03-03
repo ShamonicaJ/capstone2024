@@ -16,14 +16,14 @@ const seed = async () => {
 			description TEXT,
 			complete BOOLEAN
 		);
-		INSERT INTO taskjs (title, description, complete) 
+		INSERT INTO tasks (title, description, complete) 
 		VALUES ('Demo', 'A demo of APIs powered by SQL', false)
 		`;
 
 		await client.query(query);
 		
 	} catch (e) {
-		console.error(`Failed to seed initial data in database.`, e);
+		console.error(`Failed to seed initial data in database. @function seed();`, e);
 		throw e;
 	}
 
