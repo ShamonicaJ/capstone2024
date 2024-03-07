@@ -1,6 +1,9 @@
 import { startDB, client } from './db.js';
 
 
+
+/*
+* Sole purpose of seedjs is to feed some information into the database.*/
 const seed = async () => {
 
 	let db = null; // create variable before initialization
@@ -17,7 +20,7 @@ const seed = async () => {
 			complete BOOLEAN
 		);
 		INSERT INTO tasks (title, description, complete) 
-		VALUES ('Demo', 'A demo of APIs powered by SQL', false)
+		VALUES ('Second', 'A second demo of APIs powered by SQL', false)
 		`;
 
 		await client.query(query);
@@ -29,7 +32,9 @@ const seed = async () => {
 
 	/* CleanUp Process */
 	await db.release(); // close Database
-	await client.end(); // shutdown client 
+	await client.end(); // shutdown client
+
+	// eslint-disable-next-line no-undef
 	process.exit(0); // exit process
 }
 

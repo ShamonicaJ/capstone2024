@@ -6,9 +6,9 @@ const LISTENING_PORT = 3000; // LISTENING PORT
 const app = express(); //Create another variable to initialize express
 
 // Something of convenience..Helps convert the body of reqs/reps into JSON so that 
-// it does not need to be created manually on every reqest.
+// it does not need to be created manually on every request.
 app.use(express.json());
-app.use(cors()); //Annonying security thing
+app.use(cors()); //Annoying security thing
 
 
 //Creating Routes
