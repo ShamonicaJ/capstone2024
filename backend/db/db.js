@@ -1,4 +1,5 @@
 import pg from 'pg';
+import chalk from 'chalk';
 
 const DATABASE = 'capstone_db';
 const DB_PORT = 5432;
@@ -19,9 +20,9 @@ const startDB = async () => {
 	let instance= null;
 	try {
 		instance = await client.connect();
-		console.log(`Successfully connected to ${DATABASE}`);
+		console.log(chalk.blue(`Successfully connected to ${DATABASE}`));
 	} catch (e) {
-		console.error('Failure connecting to database. @function startDB() ', e);
+		console.error(chalk.red('Failure connecting to database. @function startDB() ', e));
 		throw e; //kill app if you can't connect
 	}
 	return instance;

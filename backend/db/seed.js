@@ -1,4 +1,5 @@
 import { startDB, client } from './db.js';
+import chalk from 'chalk';
 
 
 
@@ -26,7 +27,7 @@ const seed = async () => {
 		await client.query(query);
 		
 	} catch (e) {
-		console.error(`Failed to seed initial data in database. @function seed();`, e);
+		console.error(chalk.red(`Failed to seed initial data in database. ${chalk.green('@function seed()')};`, e));
 		throw e;
 	}
 
