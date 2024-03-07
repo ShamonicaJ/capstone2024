@@ -7,8 +7,8 @@ const App = () => {
   return (
     <div className="app-container">
       <div className="header">
-        <img src="/hero-image.jpg"></img>
-        <div className="title">International Recipe App </div>
+        <img src="/koreanfood.jpg"></img>
+        <div className="title">Culinary Compass </div>
       </div>
       <div className="tabs">
         <h1>Search</h1>
