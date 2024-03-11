@@ -1,8 +1,6 @@
 import { startDB, client } from './db.js';
 import chalk from 'chalk';
 
-
-
 /*
 * Sole purpose of seedjs is to feed some information into the database.*/
 const seed = async () => {
