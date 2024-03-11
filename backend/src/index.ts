@@ -2,12 +2,13 @@ import express from "express";
 import cors from "cors";
 import * as RecipeAPI from "./recipe-api";
 import dotenv from "dotenv";
+import { PrismaClient } from "@prisma/client";
 
 dotenv.config(); // Load environment variables from .env file
 
 
 const app = express();
-
+const prismaClient = new PrismaClient();
 
 
 app.use(express.json());
@@ -29,7 +30,53 @@ app.get("/api/recipes/search", async (req, res) => {
     return res.json(results);
   });
 
+  app.post("/api/recipes/favourite", async (req, res) => {
+    const recipeId = req.body.recipeId;
   
+    try {
+      const favouriteRecipe = await prismaClient.favouriteRecipes.create({
+        data: {
+          recipeId: recipeId,
+        },
+      });
+      return res.status(201).json(favouriteRecipe);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: "Oops, something went wrong" });
+    }
+  });
+
+  app.get("/api/recipes/favourite", async (req, res) => {
+    try {
+      const recipes = await prismaClient.favouriteRecipes.findMany();
+      const recipeIds = recipes.map((recipe) => recipe.recipeId.toString());
+  
+      const favourites = await RecipeAPI.getFavouriteRecipesByIDs(recipeIds);
+  
+      return res.json(favourites);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: "Oops, something went wrong" });
+    }
+  });
+
+  app.delete("/api/recipes/favourite", async (req, res) => {
+    const recipeId = req.body.recipeId;
+  
+    try {
+      await prismaClient.favouriteRecipes.delete({
+        where: {
+          recipeId: recipeId,
+        },
+      });
+      return res.status(204).send();
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: "Oops, something went wrong" });
+    }
+  });
+  
+
   app.listen(3000, () => {
     console.log("server running on localhost:3000");
 });
