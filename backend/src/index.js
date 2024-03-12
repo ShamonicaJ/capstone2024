@@ -6,8 +6,10 @@ import cors from 'cors';
 const LISTENING_PORT = 3000; // LISTENING PORT
 const app = express(); //Create another variable to initialize express
 
-// Something of convenience..Helps convert the body of reqs/reps into JSON so that 
+// Something of convenience..
+// Helps convert the body of reqs/reps into JSON so that
 // it does not need to be created manually on every request.
+
 app.use(express.json());
 app.use(cors()); //Annoying security thing
 
@@ -15,6 +17,7 @@ app.use((req, res, next) => {
 
 	console.log(chalk.magenta(`Request From: ${req.ip} - ${req.path} - ${req.body}`));
 	next();
+
 })
 
 //Creating Routes
@@ -30,14 +33,18 @@ app.get(getPath, (req /*request*/, res /*response*/) => {
 
 getPath = '/api/tasks';
 app.get(getPath, async (req, res) => {
+
 	try {
 		const result = await client.query(`
+
 			SELECT * FROM tasks
+			
 		`);
 		res.send( { tasks: result.rows } );
 	} catch (e) {
 		console.error(chalk.red(`ERROR @get_req:${getPath}; Failed to get tasks`, e));
 	}
+
 })
 
 getPath = '/api/tasks/tasks:taskId';
@@ -50,6 +57,7 @@ app.get(getPath, async (req, res) => {
 			SELECT * FROM tasks
 			WHERE tasks.id = ${taskId} LIMIT 1;
 		`);
+
 		if (!result.rows.length) {
 			res.status(404).send({
 					message: `No task found with Id: ${taskId}`,
@@ -62,6 +70,7 @@ app.get(getPath, async (req, res) => {
 	} catch (e) {
 		console.error(chalk.red(`ERROR @get_req:${getPath}; Failed to get tasks`, e));
 	}
+
 })
 
 getPath = 'api/recipes/search';
