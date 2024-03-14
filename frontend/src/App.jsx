@@ -1,10 +1,11 @@
 import "./App.css";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import * as api from "./api";
-import {Recipe} from "./types";
+import { Recipe } from "./types"; 
 import RecipeCard from "./components/RecipeCard";
 import RecipeModal from "./components/RecipeModal";
 import { AiOutlineSearch } from "react-icons/ai";
+
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState("");
