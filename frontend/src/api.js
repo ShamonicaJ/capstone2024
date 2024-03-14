@@ -73,3 +73,4 @@ export const searchRecipes = async (searchTerm, page) => {
     }
   }
   
+  

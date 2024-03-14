@@ -1,2 +1,13 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+export interface Recipe {
+    id: number;
+    title: string;
+    image: string;
+    imageType: string;
+  }
+  
+  export interface RecipeSummary {
+    id: number;
+    title: string;
+    summary: string;
+  }
+  
