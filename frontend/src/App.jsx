@@ -20,7 +20,7 @@ const App = () => {
       setRecipes(recipes.results);
       pageNumber.current = 1;
     } catch (e) {
-      console.log(e);
+
     }
   };
 
