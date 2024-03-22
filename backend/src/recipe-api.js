@@ -11,14 +11,14 @@ const searchRecipes = async (searchTerm, page) => {
   // Dynamically import node-fetch
   try {
     const fetch = await import("node-fetch");
-    
+
     const url = new URL("https://api.spoonacular.com/recipes/complexSearch");
 
     const queryParams = {
       apiKey,
       query: searchTerm,
       number: "10",
-      offset: page * 10 
+      offset: page * 10
     };
 
     url.searchParams.append("apiKey", queryParams.apiKey);
@@ -35,3 +35,20 @@ const searchRecipes = async (searchTerm, page) => {
 };
 
 module.exports = { searchRecipes };
+
+const getFavouriteRecipesByIDs = async (ids) => {
+  if (!apiKey) {
+    throw new Error("API Key not found");
+  }
+
+  const url = new URL("http://api.spoonacular.com/recipes/informationBulk");
+  const params = {
+    apiKey: apiKey,
+    ids: ids.join(",")
+  };
+  url.search = new URLSearchParams(params).toString();
+  const searchResponse = await fetch(url);
+  const json = await searchResponse.json();
+
+  return { results: json };
+};
