@@ -20,7 +20,7 @@ const App = () => {
     const fetchFavouriteRecipes = async () => {
       try {
         const fetchedFavouriteRecipes = await api.getFavouriteRecipes();
-        setFavouriteRecipes(fetchedFavouriteRecipes);
+        setFavouriteRecipes(fetchedFavouriteRecipes.results);
       } catch (error) {
         console.log(error);
       }
@@ -51,6 +51,27 @@ const App = () => {
     }
   };
 
+  const addFavouriteRecipe = async (recipe) => {
+    try {
+      await api.addFavouriteRecipe(recipe);
+      setFavouriteRecipes([...favouriteRecipes, recipe])
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const removeFavouriteRecipe = async(recipe)=>{
+    try {
+      await api.removeFavouriteRecipe(recipe);
+      const updatedRecipes = favouriteRecipes.filter(
+        (favRecipe) => recipe.id !== favRecipe.id
+        );
+        setFavouriteRecipes(updatedRecipes);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  
   return (
     <div className="app-container">
       <div className="header">
@@ -74,13 +95,22 @@ const App = () => {
             <button type="submit">Submit</button>
           </form>
 
-          {recipes.map((recipe) => (
-            <RecipeCard
-              key={recipe.id}
-              recipe={recipe}
-              onClick={() => setSelectedRecipe(recipe)}
-            />
-          ))}
+{recipes.map((recipe) => {
+  const isFavourite = favouriteRecipes.some((favRecipe) => recipe.id === favRecipe.id);
+
+  return (
+    <RecipeCard
+      key={recipe.id}
+      recipe={recipe}
+      onClick={() => setSelectedRecipe(recipe)}
+      onFavouriteButtonClick={
+        isFavourite ? removeFavouriteRecipe : addFavouriteRecipe
+      }
+      isFavourite={isFavourite}
+    />
+  );
+})}
+
           <button className="view-more-button" onClick={handleViewMoreClick}>
             View More
           </button>
@@ -94,6 +124,7 @@ const App = () => {
               key={recipe.id}
               recipe={recipe}
               onClick={() => setSelectedRecipe(recipe)}
+              onFavouriteButtonClick={removeFavouriteRecipe}
             />
           ))}
         </div>
@@ -103,6 +134,7 @@ const App = () => {
         <RecipeModal
           recipeId={selectedRecipe.id.toString()}
           onClose={() => setSelectedRecipe(null)}
+          isFavourite={true}
         />
       )}
     </div>
