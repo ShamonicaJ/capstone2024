@@ -82,6 +82,7 @@ const App = () => {
         <img src="/hero-image.jpg"></img> 
         <div className="title">Recipe App</div>
       </div>
+
       <div className="tabs">
         <h1 
         className={selectedTab === "search" ? "tab-active": ""}
@@ -90,6 +91,7 @@ const App = () => {
         className={selectedTab === "favourites" ? "tab-active": ""}
         onClick={()=> setSelectedTab("favourites")}>Favourites</h1>
       </div>
+      
       {selectedTab === "search" && (<>
         <form onSubmit={(event)=> handleSearchSubmit(event)}> 
       <input type="text" 
