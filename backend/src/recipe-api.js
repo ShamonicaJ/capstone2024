@@ -34,9 +34,7 @@ const searchRecipes = async (searchTerm, page) => {
   }
 };
 
-module.exports = { searchRecipes };
-
-const getFavouriteRecipesByIDs = async (ids) => {
+const getFavouriteRecipesByIDs = async (ids, apiKey) => {
   if (!apiKey) {
     throw new Error("API Key not found");
   }
@@ -52,3 +50,5 @@ const getFavouriteRecipesByIDs = async (ids) => {
 
   return { results: json };
 };
+
+module.exports = { searchRecipes, getFavouriteRecipesByIDs };
