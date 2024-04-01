@@ -1,17 +1,34 @@
-import { AiOutlineHeart } from "react-icons/ai";
+import { Recipe } from "../types";
+import {  AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 
-const RecipeCard = () => {
-  return (
-    <div className="recipe-card">
-      <img src="https://placehold.co/600x400"></img>
-      <div className="recipe-card-title">
-        <span>
-          <AiOutlineHeart size={25} />
-        </span>
-        <h3>RECIPE TITLE</h3>
+const RecipeCard = ({
+    recipe,
+    onClick,
+    onFavouriteButtonClick,
+    isFavourite
+  }) => {
+    return (
+      <div className="recipe-card" onClick={onClick}>
+        <img src={recipe.image}></img>
+        <div className="recipe-card-title">
+          <span
+            onClick={event => {
+              event.stopPropagation()
+              onFavouriteButtonClick(recipe)
+            }}
+          >
+            {isFavourite ? (
+              <AiFillHeart size={25} color="red" />
+            ) : (
+              <AiOutlineHeart size={25} />
+            )}
+          </span>
+          <h3>{recipe.title}</h3>
+        </div>
       </div>
-    </div>
-  );
-};
-
-export default RecipeCard;
+    )
+  }
+  
+  export default RecipeCard
+  
+  
