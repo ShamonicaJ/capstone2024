@@ -74,3 +74,25 @@ export const searchRecipes = async (searchTerm: string, page: number) => {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
   };
+
+  // New function for searching recipes by cuisine
+export const searchRecipesByCuisine = async (cuisine: string) => {
+  const url = new URL("http://localhost:3000/api/recipes/cuisine");
+  const body = {
+    cuisine: cuisine,
+  };
+
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! Status: ${response.status}`);
+  }
+
+  return response.json();
+};

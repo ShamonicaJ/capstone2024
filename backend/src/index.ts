@@ -76,6 +76,20 @@ app.get("/api/recipes/search", async (req, res) => {
     }
   });
   
+  app.post("/api/recipes/cuisine", async (req, res) => {
+    const { cuisine } = req.body; // Assuming the cuisine parameter is sent in the request body
+    
+    try {
+        const results = await RecipeAPI.searchRecipesByCuisine(cuisine);
+        return res.json(results);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ error: "Oops, something went wrong" });
+    }
+});
+
+
+  
 
   app.listen(3000, () => {
     console.log("server running on localhost:3000");
