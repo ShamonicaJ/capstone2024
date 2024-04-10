@@ -1,17 +1,16 @@
 import "./App.css";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as api from "./api";
-import { Recipe } from "./types"; 
+import { Recipe } from "./types";
 import RecipeCard from "./components/RecipeCard";
 import RecipeModal from "./components/RecipeModal";
 import { AiOutlineSearch } from "react-icons/ai";
-
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [recipes, setRecipes] = useState([]);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
-  const [selectedTab, setSelectedTab] = useState(null);
+  const [selectedTab, setSelectedTab] = useState("search");
   const [favouriteRecipes, setFavouriteRecipes] = useState([]);
 
   const pageNumber = useRef(1);
@@ -20,7 +19,7 @@ const App = () => {
     const fetchFavouriteRecipes = async () => {
       try {
         const fetchedFavouriteRecipes = await api.getFavouriteRecipes();
-        setFavouriteRecipes(fetchedFavouriteRecipes.results);
+        setFavouriteRecipes(fetchedFavouriteRecipes); // Updated to set the favourite recipes directly
       } catch (error) {
         console.log(error);
       }
@@ -54,23 +53,21 @@ const App = () => {
   const addFavouriteRecipe = async (recipe) => {
     try {
       await api.addFavouriteRecipe(recipe);
-      setFavouriteRecipes([...favouriteRecipes, recipe])
+      setFavouriteRecipes([...favouriteRecipes, recipe]); // Updated to add the recipe directly
     } catch (error) {
       console.log(error);
     }
   };
 
-  const removeFavouriteRecipe = async(recipe)=>{
+  const removeFavouriteRecipe = async (recipe) => {
     try {
       await api.removeFavouriteRecipe(recipe);
-      const updatedRecipes = favouriteRecipes.filter(
-        (favRecipe) => recipe.id !== favRecipe.id
-        );
-        setFavouriteRecipes(updatedRecipes);
+      const updatedRecipes = favouriteRecipes.filter((favRecipe) => recipe.id !== favRecipe.id);
+      setFavouriteRecipes(updatedRecipes); // Updated to remove the recipe directly
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
   
   return (
     <div className="app-container">
@@ -95,21 +92,18 @@ const App = () => {
             <button type="submit">Submit</button>
           </form>
 
-{recipes.map((recipe) => {
-  const isFavourite = favouriteRecipes.some((favRecipe) => recipe.id === favRecipe.id);
-
-  return (
-    <RecipeCard
-      key={recipe.id}
-      recipe={recipe}
-      onClick={() => setSelectedRecipe(recipe)}
-      onFavouriteButtonClick={
-        isFavourite ? removeFavouriteRecipe : addFavouriteRecipe
-      }
-      isFavourite={isFavourite}
-    />
-  );
-})}
+          {recipes.map((recipe) => (
+            <RecipeCard
+              key={recipe.id}
+              recipe={recipe}
+              onClick={() => setSelectedRecipe(recipe)}
+              onFavouriteButtonClick={() => {
+                const isFavourite = favouriteRecipes.some((favRecipe) => recipe.id === favRecipe.id);
+                isFavourite ? removeFavouriteRecipe(recipe) : addFavouriteRecipe(recipe);
+              }}
+              isFavourite={favouriteRecipes.some((favRecipe) => recipe.id === favRecipe.id)}
+            />
+          ))}
 
           <button className="view-more-button" onClick={handleViewMoreClick}>
             View More
@@ -124,7 +118,8 @@ const App = () => {
               key={recipe.id}
               recipe={recipe}
               onClick={() => setSelectedRecipe(recipe)}
-              onFavouriteButtonClick={removeFavouriteRecipe}
+              onFavouriteButtonClick={() => removeFavouriteRecipe(recipe)}
+              isFavourite={true}
             />
           ))}
         </div>
@@ -134,7 +129,7 @@ const App = () => {
         <RecipeModal
           recipeId={selectedRecipe.id.toString()}
           onClose={() => setSelectedRecipe(null)}
-          isFavourite={true}
+          isFavourite={favouriteRecipes.some((favRecipe) => selectedRecipe.id === favRecipe.id)}
         />
       )}
     </div>

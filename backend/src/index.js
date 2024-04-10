@@ -40,7 +40,7 @@ app.post("/api/recipes/favorite", async (req, res) => {
   }
 });
 
-app.get("/api/recipes/favorite", async (req, res) => {
+app.get("/api/recipes/favourite", async (req, res) => {
   try {
     const recipes = await prismaClient.favouriteRecipe.findMany();
     const recipeIds = recipes.map((recipe) => recipe.recipeId.toString());
@@ -54,7 +54,7 @@ app.get("/api/recipes/favorite", async (req, res) => {
   }
 });
 
-app.delete("/api/recipes/favorite", async (req, res) => {
+app.delete("/api/recipes/favourite", async (req, res) => {
   const { recipeId } = req.body; // Destructuring the recipeId from request body
 
   try {
