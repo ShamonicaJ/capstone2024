@@ -17,3 +17,5 @@ model FavouriteRecipes {
   id       Int @id @default(autoincrement())
   recipeId Int @unique
 }
+
+
